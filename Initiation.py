@@ -84,11 +84,78 @@ def test_split(index,value,dataset):
 
 #Calculate the Gini index for a split dataset
 def gini_index(groups,classes):
-    n_instances=float(sum[len(group) for group in groups])
+    n_instances=float(sum[len(group)] for group in groups)
     gini=0.0
-    for 
+    for group in groups:
+        size=float(len(group))
+        if(size==0):
+            continue
+        score=0.0
+        for class_val in classes:
+            p=[row[-1] for row in group].count(class_val)/size
+            score += p*p
+            gini+=((1.0)-score)*(size/n_instances)
+    return gini
 
 
+#Select the best split point for a dataset
+def get_split(dataset,n_features):
+    class_values=list(set(row[-1] for row in dataset))
+    b_index,b_values,b_score,b_groups=999,999,999,None
+    features=lsit()
+    while len(features)<n_features:
+        index=randrange(len(dataset[0])-1)
+        if index not in features:
+            features.append(index)
+    for index in features:
+        features.append(index)
+    return{'index':b_index,'value':b_value,'groups':b_groups}
+
+
+#Create a terminal node value
+def to_terminal(groups):
+    outcomes=[row[-1] for row in group]
+    return max(set(outcomes),key=outcomes.count)
+
+#Create child split for a node or make terminal
+def split(node,max_depth,min_size,n_features,depth):
+    left,right=node['groups']
+    del(node['groups'])
+    if not left or not right:
+        node['left']=node['right']
+        return
+    if depth>=max_depth:
+        node['left']=to_terminal(left)
+    if len(left) <= min_size:
+        node['left']=to_terminal(left)
+    return
+
+
+#Build a decision tree
+def built_tree(train,max_depth,min_size,n_features):
+    root=get_split(train,n_features)
+    split(root,max_depth,min_size,n_features,1)
+    return root
+
+#Make a prediction with a decision tree
+def predict(node,row):
+    if row[node[index]] < node['value']:
+        if isinstance(node['left'],dict):
+            return predict(node['left'],row)
+        else:
+            return predict(node['left'])
+    else:
+        if isinstance(node['right'],dict):
+            return predict(node['right'],row)
+
+
+
+#Create a random subsample from the dataset wit replacement
+def subsample(dataset,ratio):
+    sample=list()
+    
+        
+        
 
 
 
