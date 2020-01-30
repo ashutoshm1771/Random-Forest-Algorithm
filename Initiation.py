@@ -1,5 +1,5 @@
 #Author - Ashutosh Mishra
-#Generalised format
+#Generalised format. No data
 #Importing the packages
 from random import seed
 from random import randrange
